@@ -24,7 +24,7 @@ on:
 
 jobs:
   release-helm-chart:
-    name: Deploy
+    name: Release Helm Chart
     runs-on: ubuntu-latest
     steps:
       - name: Init
@@ -41,5 +41,4 @@ jobs:
         run: |
           pwd
           ls -la 
-          echo 
  
