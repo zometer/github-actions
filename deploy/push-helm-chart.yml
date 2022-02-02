@@ -1,0 +1,38 @@
+name: Push Helm chart to GitHub repo
+
+on:
+  workflow_call:
+    inputs:
+      helmChartRepo: 
+        description: 'Helm Chart Repository'
+        required: true
+        default: 'zometer/helm-charts'
+        type: string
+      helmChartRepoBranch: 
+        description: 'Helm chart index branch'
+        required: true
+        default: 'gh-pages'
+        type: string
+      artifactName: 
+        description: 'name of workflow artifact with helm chart'
+        required: true
+        default: 'helm-chart'
+        type: string
+    secrets:
+      githubToken:
+        required: true
+
+jobs:
+  release-helm-chart:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v2.1.0
+        with:
+          name: ${{ inputs.artifactName }}
+      - name: Prepare for release
+        run: |
+          pwd
+          ls -la 
+ 
