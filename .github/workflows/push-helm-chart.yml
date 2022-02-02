@@ -27,14 +27,19 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
+      - name: Init
+        run: |
+          pwd          
+          echo "artfactName: ${{ inputs.artifactName }}"
+          echo "helmChartRepo: ${{ inputs.helmChartRepo }}"
+          echo "helmChartRepoBranch: ${{ inputs.helmChartRepoBranch }}"
       - name: Download a Build Artifact
         uses: actions/download-artifact@v2.1.0
         with:
-          artifactName: ${{ inputs.artifactName }}
+          name: ${{ inputs.artifactName }}
       - name: Prepare for release
         run: |
           pwd
           ls -la 
-          echo "inputs: ${{ inputs.artifactName }}"
-          echo "inputs: ${{ github.event.inputs.artifactName }}"
+          echo 
  
