@@ -30,9 +30,11 @@ jobs:
       - name: Download a Build Artifact
         uses: actions/download-artifact@v2.1.0
         with:
-          name: ${{ github.events.inputs.artifactName }}
+          artifactName: ${{ inputs.artifactName }}
       - name: Prepare for release
         run: |
           pwd
           ls -la 
+          echo "inputs: ${{ inputs.artifactName }}"
+          echo "inputs: ${{ github.event.inputs.artifactName }}"
  
