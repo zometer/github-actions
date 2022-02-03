@@ -60,7 +60,6 @@ jobs:
           VERSION: ${{inputs.chartVersion}}
       - name: Create Release With Asset
         id: Release-AIO
-        if: ${{ false }}
         uses: Hs1r1us/Release-AIO@v1.0
         env:
           GITHUB_TOKEN: ${{ secrets.githubToken }}
