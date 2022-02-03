@@ -76,6 +76,10 @@ jobs:
     env: 
       HELM_CHART_REPO: ${{inputs.helmChartRepo}}
     steps: 
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v2.1.0
+        with:
+          name: ${{ inputs.artifactName }}
       - name: Init Update Helm Index
         id: init-update-helm-index
         run: |
