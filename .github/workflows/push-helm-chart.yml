@@ -122,7 +122,6 @@ jobs:
           GIT_REPO_DIR: ${{ steps.init-update-helm-index.outputs.gitRepoDir }}
           HELM_CHARTS_GIT_REPO: helm-charts
       - name: Push Helm Chart Repo
-        if: ${{ false }}
         id: push-helm-repo
         run: |
           cd $GIT_REPO_DIR/$HELM_CHARTS_GIT_REPO
