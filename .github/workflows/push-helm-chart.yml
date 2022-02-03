@@ -98,7 +98,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.githubToken }}
           CHART_DIR: ${{ steps.init-update-helm-index.outputs.chartDir }}
-          GIT_REPO_DIR: ${{ steps.init-update-helm-index.gitRepoDir }}
+          GIT_REPO_DIR: ${{ steps.init-update-helm-index.outputs.gitRepoDir }}
           HELM_CHARTS_GIT_REPO: helm-charts
       - name: Generate Updated index.yaml
         id: update-helm-repo-index
