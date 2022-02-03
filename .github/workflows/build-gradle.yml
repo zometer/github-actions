@@ -1,0 +1,39 @@
+# This workflow will only run a gradle build.
+
+name: Gradle Build
+on: 
+  workflow_call:
+    inputs:
+      gradleTasks: 
+        description: 'Gradle Tasks to Run (space delimited)'
+        required: false
+        default: 'build'
+        type: string
+      gradleArgs:
+        description: 'Additional Gradle parameters'
+        required: false
+        default: ''
+        type: string
+      javaVersion: 
+        description: 'JDK Version'
+        required: false
+        default: '17'
+        type: string 
+
+jobs:
+  build: 
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK ${{ inputs.javaVersion }}
+        uses: actions/setup-java@v2
+        with:
+          java-version: ${{ inputs.javaVersion }}
+          distribution: 'temurin'
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@4137be6a8bf7d7133955359dbd952c0ca73b1021
+        with:
+          arguments: ${{ inputs.gradleTasks }} ${{ inputs.gradleArgs }}
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
