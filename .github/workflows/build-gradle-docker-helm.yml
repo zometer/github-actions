@@ -1,0 +1,82 @@
+# This workflow will run a gradle build, build a docker image, and 
+# creates a helm chart. The Docker image is pushed to docker hub, and 
+# the helm chart is uploaded as a build artifact for use in downstream jobs. 
+
+name: Build Jar, Image, and Chart
+on: 
+  workflow_call:
+    inputs:
+      gradleTasks: 
+        description: 'Gradle Tasks to Run (space delimited)'
+        required: false
+        default: 'build'
+        type: string
+      gradleArgs:
+        description: 'Additional Gradle parameters'
+        required: false
+        default: ''
+        type: string
+      javaVersion: 
+        description: 'JDK Version'
+        required: false
+        default: '17'
+        type: string   
+      helmChartArtifactName: 
+        description: 'Name of the Workflow Job artifact holding the helm chart.'
+        required: false
+        default: 'helm-chart'
+        type: string   
+
+jobs:
+  build: 
+    name: Build
+    outputs:
+      group: ${{ steps.buildVars.outputs.group }}
+      artifact: ${{ steps.buildVars.outputs.artifact }}
+      version: ${{ steps.buildVars.outputs.version }}
+      helmChartArtifactName: ${{ inputs.helmChartArtifactName }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK ${{ inputs.javaVersion }}
+        uses: actions/setup-java@v2
+        with:
+          java-version: ${{ inputs.javaVersion }}
+          distribution: 'temurin'
+      - name: Set Git User
+        run: |
+          git config user.name "$GITHUB_ACTOR - RELEASE BUILD"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@4137be6a8bf7d7133955359dbd952c0ca73b1021
+        with:
+          arguments: ${{ inputs.gradleTasks }} ${{ inputs.gradleArgs }}
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get Build and Release Version
+        id: buildVars
+        run: |
+          `cat build/resources/main/META-INF/build-info.properties | sed -e s/build./export\ /g`
+          env
+          echo "::set-output name=group::$group"
+          echo "::set-output name=artifact::$artifact"
+          echo "::set-output name=version::$version"
+      - name: Examine Build directory
+        run: ls -l build/libs build/helm/charts
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ github.repository_owner }}/${{ steps.releaseVars.outputs.ARTIFACT }}:${{ steps.releaseVars.outputs.VERSION }}
+      - name: Upload Helm Chart Artifact
+        uses: actions/upload-artifact@v2.3.1
+        with:
+          name: ${{ inputs.helmChartArtifactName }}
+          path: build/helm/charts/*.tgz
+
