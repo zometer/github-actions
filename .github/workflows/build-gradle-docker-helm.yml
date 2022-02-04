@@ -91,7 +91,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ github.repository_owner }}/${{ steps.releaseVars.outputs.ARTIFACT }}:${{ steps.releaseVars.outputs.VERSION }}
+          tags: ${{ github.repository_owner }}/${{ steps.buildVars.outputs.ARTIFACT }}:${{ steps.buildVars.outputs.VERSION }}
       - name: Upload Helm Chart Artifact
         if: ${{ inputs.uploadHelmChart }}
         uses: actions/upload-artifact@v2.3.1
