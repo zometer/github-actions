@@ -36,6 +36,11 @@ on:
         required: false 
         type: boolean
         default: true
+    secrets:
+      DOCKER_USERNAME: 
+        required: false
+      DOCKER_PASSWORD: 
+        required: false
 
 jobs:
   build: 
