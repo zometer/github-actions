@@ -72,6 +72,7 @@ jobs:
           echo "::set-output name=artifact::$artifact"
           echo "::set-output name=version::$version"
       - name: Examine Build directory
+        if: ${{ inputs.uploadHelmChart }}
         run: ls -l build/libs build/helm/charts
       - name: Log in to Docker Hub
         if: ${{ inputs.buildDockerImage }}
