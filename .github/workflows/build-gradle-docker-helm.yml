@@ -36,6 +36,19 @@ on:
         required: false 
         type: boolean
         default: true
+    outputs:
+      group: 
+        description: Maven repository artifact group
+        value: ${{ jobs.build.outputs.group }}
+      artifact: 
+        description: Maven repository artifact name
+        value: ${{ jobs.build.outputs.artifact }}
+      version: 
+        description: Maven repository artifact version
+        value: ${{ jobs.build.outputs.group }}
+      helmChartArtifactName: 
+        description: 'Name of the Workflow Job artifact holding the helm chart.'
+        value: ${{ jobs.build.outputs.helmChartArtifactName }}
     secrets:
       DOCKER_USERNAME: 
         required: false
