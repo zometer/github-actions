@@ -45,7 +45,7 @@ on:
         value: ${{ jobs.build.outputs.artifact }}
       version: 
         description: Maven repository artifact version
-        value: ${{ jobs.build.outputs.group }}
+        value: ${{ jobs.build.outputs.version }}
       helmChartArtifactName: 
         description: 'Name of the Workflow Job artifact holding the helm chart.'
         value: ${{ jobs.build.outputs.helmChartArtifactName }}
