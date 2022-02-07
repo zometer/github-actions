@@ -37,7 +37,8 @@ jobs:
     steps:
       - name: Init
         run: |
-          pwd          
+          pwd 
+          echo "inputs: ${{ inputs }}"
           echo "artfactName: ${{ inputs.artifactName }}"
           echo "chartName: ${{ inputs.chartName }}"
           echo "chartVersion: ${{ inputs.chartVersion }}"
