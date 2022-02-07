@@ -38,7 +38,7 @@ jobs:
       - name: Init
         run: |
           pwd 
-          echo "inputs: ${{ inputs }}"
+          echo "inputs: ${{ toJSON(inputs) }}"
           echo "artfactName: ${{ inputs.artifactName }}"
           echo "chartName: ${{ inputs.chartName }}"
           echo "chartVersion: ${{ inputs.chartVersion }}"
