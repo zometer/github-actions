@@ -82,7 +82,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ github.repository_owner }}/${{ steps.buildVars.outputs.artifact }}:${{ steps.buildVars.outputs.version }}
+          tags: ${{ github.repository_owner }}/${{ steps.buildVars.outputs.package }}:${{ steps.buildVars.outputs.version }}
       - name: Increment Version
         if: ${{ inputs.incrementVersion }}
         run: npm version ${{ inputs.npmRunVersionArgs }}
