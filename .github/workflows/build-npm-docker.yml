@@ -19,7 +19,7 @@ on:
         description: Determines whether npm should increment the version
         required: false 
         type: boolean
-        default: true
+        default: false
       npmRunVersionArgs: 
         description: Arguments for npm version
         required: false 
