@@ -14,7 +14,7 @@ on:
         description: Determines whether the job should build and push a Docker image
         required: false 
         type: boolean
-        default: true
+        default: "true"
       incrementVersion: 
         description: Determines whether npm should increment the version
         required: false 
@@ -46,6 +46,10 @@ jobs:
       version: ${{ steps.buildVars.outputs.version }}
     runs-on: ubuntu-latest
     steps:
+      - name: Init
+        run: | 
+          echo "${{ toJSON(inputs) }}"
+          echo "${{ inputs.buildDockerImage }}"
       - uses: actions/checkout@v2
       - name: Use Node.js 
         uses: actions/setup-node@v2
