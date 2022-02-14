@@ -62,8 +62,8 @@ jobs:
       - name: Get Build and Release Version
         id: buildVars
         run: |
-          export $package=`cat package.json | jq -r '.name'`
-          export $version=`cat package.json | jq -r '.version'`
+          export package=`cat package.json | jq -r '.name'`
+          export version=`cat package.json | jq -r '.version'`
           echo "::set-output name=package::$package"
           echo "::set-output name=version::$version"
       - name: Log in to Docker Hub
