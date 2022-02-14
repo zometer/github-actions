@@ -14,7 +14,7 @@ on:
         description: Determines whether the job should build and push a Docker image
         required: false 
         type: boolean
-        default: "true"
+        default: true
       incrementVersion: 
         description: Determines whether npm should increment the version
         required: false 
